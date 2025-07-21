@@ -1,50 +1,31 @@
-const mongoose = require('mongoose')
+import express from 'express';
+import dbClient from './config/db';
+import dotenv from 'dotenv'
+import userRoutes from './routes/userRoute';
+import claimRoutes from './routes/claimRoute';
+import http from 'http';
+import { initSocket } from './socket';
+import cors from 'cors';
 
-mongoose.connect("mongodb+srv://saketpandey1012:pandey1012@cluster0.iyz5hu0.mongodb.net/payapp")
+dotenv.config()
+const app = express()
 
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        lowercase: true,
-        minLength: 3,
-        maxLength: 30
-    },
-    password: {
-        type: String,
-        required: true,
-        minLength: 6
-    },
-    firstName: {
-        type: String,
-        required: true,
-        trim: true,
-        maxLength: 50
-    },
-    lastName: {
-        type: String,
-        required: true,
-        trim: true,
-        maxLength: 50
-    }
-})
+app.use(express.json());
+app.use(cors());
 
-const accountSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    balance: {
-        type: Number,
-        required: true
-    }
+const server = http.createServer(app);
+const io = initSocket(server);
+
+
+dbClient();
+
+
+app.use('/api/users', userRoutes);
+app.use('/api/claim', claimRoutes);
+
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
-
-
-const Account = mongoose.model('Account', accountSchema)
-const User = mongoose.model('User', userSchema);
-
-module.exports = {User, Account};
