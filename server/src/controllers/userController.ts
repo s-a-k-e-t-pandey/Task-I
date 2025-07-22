@@ -15,6 +15,6 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const getUsers = async (req: Request, res: Response) => {
-  const users = await User.find().sort({ createdAt: -1 });
+  const users = await User.find().sort({ totalPoints: -1 });
   res.json(users);
 };

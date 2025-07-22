@@ -1,11 +1,17 @@
 
 import Landingpage from './components/screens/Landingpage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+
+const queryClient = new QueryClient();
+
+
 function App() {
 
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <Landingpage></Landingpage>
-    </div>
+    </QueryClientProvider>
   )
 }
 

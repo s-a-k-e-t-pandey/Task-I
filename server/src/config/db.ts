@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const db_Uri = process.env.MONGO_URI || "mongodb://localhost:27017/"
-
+const db_Uri = process.env.MONGO_URI || "";
+console.log('Connecting to DB:', db_Uri);
 const dbClient = async () => {
     try{
         const conn = await mongoose.connect(db_Uri);

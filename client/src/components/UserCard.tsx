@@ -14,7 +14,7 @@ export const UserCard: React.FC<addUserCardProps> = ({ onClose }) => {
         const [lastName, setLastName] = useState("");
 
     return (
-        <div className="w-full sm:max-w-md lg:max-w-lg top-20 overflow-hidden rounded-3xl border bg-gradient-to-b from-slate-50/90 to-slate-100/90 transition duration-300 dark:from-slate-950/90 dark:to-neutral-800/90 md:hover:border-transparent md:bg-gradient-to-bl"
+        <div className="top-40 overflow-hidden rounded-3xl border bg-gradient-to-b from-slate-50/90 to-slate-100/90 transition duration-300 dark:from-slate-950/90 dark:to-neutral-800/90 md:hover:border-transparent md:bg-gradient-to-bl"
         >
             <motion.div
                 initial={{}} 
