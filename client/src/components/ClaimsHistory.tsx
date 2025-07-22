@@ -1,30 +1,23 @@
-import { div } from "motion/react-client"
-
+import { useClaimHistoryStore } from "../stores/useClaimHistoryStore"
 
 interface PointsHistory {
-  id: number
-  name: string
-  score: number
-  pointsEarned: number
-  timestamp: string
+    id: string
+    name: string
+    score: number
+    pointsEarned: number
+    timestamp: string
 }
 
 export const ClaimsHistory: React.FC = () => {
+    const claims = useClaimHistoryStore((state) => state.claims)
 
-
-    const pointsHistory: PointsHistory[] = [
-      { id: 1, name: "Alex Chen", score: 2850, pointsEarned: 150, timestamp: "2 hours ago" },
-      { id: 2, name: "Sarah Kim", score: 2720, pointsEarned: 200, timestamp: "3 hours ago" },
-      { id: 3, name: "Mike Johnson", score: 2680, pointsEarned: 75, timestamp: "4 hours ago" },
-      { id: 1, name: "Alex Chen", score: 2700, pointsEarned: 100, timestamp: "5 hours ago" },
-      { id: 4, name: "Emma Davis", score: 2540, pointsEarned: 180, timestamp: "6 hours ago" },
-      { id: 5, name: "James Wilson", score: 2420, pointsEarned: 90, timestamp: "7 hours ago" },
-      { id: 2, name: "Sarah Kim", score: 2520, pointsEarned: 120, timestamp: "8 hours ago" },
-      { id: 6, name: "Lisa Brown", score: 2380, pointsEarned: 160, timestamp: "9 hours ago" },
-      { id: 3, name: "Mike Johnson", score: 2605, pointsEarned: 85, timestamp: "10 hours ago" },
-      { id: 7, name: "David Lee", score: 2290, pointsEarned: 110, timestamp: "11 hours ago" },
-    ]
-
+    const pointsHistory: PointsHistory[] = claims.map((claim) => ({
+      id: claim.userId,
+      name: claim.userName,
+      score: claim.totalPoints,
+      pointsEarned: claim.points,
+      timestamp: new Date(claim.timestamp).toLocaleString(),
+    }))
 
     return (
         <div className="flex top-10 w-full max-w-6xl bg-black/90 gap-4 rounded-3xl p-6 shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
@@ -38,7 +31,6 @@ export const ClaimsHistory: React.FC = () => {
           <span className="flex justify-end px-4 text-base">Time</span>
         </div>
 
-        {/* History List with Hidden Scrollbar */}
         <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollbar-hide">
           {pointsHistory.map((entry, index) => (
             <div

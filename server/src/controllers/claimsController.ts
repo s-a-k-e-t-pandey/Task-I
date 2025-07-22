@@ -2,7 +2,6 @@ import { Response, Request } from "express";
 import User from "../models/userModel";
 import Claim from "../models/claimsModel";
 import validClaim from "../utils/rateLimiter"
-import {io} from "../socket"
 
 const pointGenerator = ()=> {
     return Math.floor(Math.random() * 10) + 1;
@@ -28,7 +27,7 @@ export const claim = async (req: Request, res: Response) => {
         user.totalPoints += pt;
         await user.save();
 
-        const fullName = `${user.firstName}" "${user.lastName}`
+        const fullName = `${user.firstName} ${user.lastName}`;
 
         await Claim.create({
             userId: user._id,
@@ -37,12 +36,7 @@ export const claim = async (req: Request, res: Response) => {
             points: pt
         })
 
-        const topUsers = await User.find()
-            .sort({ totalPoints: -1 })
-            .limit(10);
-
-        io?.emit('leaderboard:update', topUsers);
-        res.json({ message: 'Points claimed', pt, totalPoints: user.totalPoints });
+        res.json({ message: 'Points claimed', pt, totalPoints: user.totalPoints, userName: fullName });
     }catch(err){
         res.status(500).json({ message: 'Failed to claim points', error: err });
     }

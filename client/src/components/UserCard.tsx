@@ -1,3 +1,4 @@
+import axios from "axios";
 import {motion} from "motion/react"
 import React from "react";
 import { useState } from "react";
@@ -12,6 +13,19 @@ interface addUserCardProps {
 export const UserCard: React.FC<addUserCardProps> = ({ onClose }) => {
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
+
+        const handleCreateUser = async () => {
+            try {
+                const response = await axios.post("http://localhost:3000/api/users", {
+                    firstName,
+                    lastName
+                });
+                console.log("User created successfully:", response.data);
+                onClose(); 
+            } catch (error) {
+                console.error("Error creating user:", error);
+            }
+        };
 
     return (
         <div className="top-40 overflow-hidden rounded-3xl border bg-gradient-to-b from-slate-50/90 to-slate-100/90 transition duration-300 dark:from-slate-950/90 dark:to-neutral-800/90 md:hover:border-transparent md:bg-gradient-to-bl"
@@ -40,7 +54,7 @@ export const UserCard: React.FC<addUserCardProps> = ({ onClose }) => {
                 </div>
                 <div className="flex justify-between">
                     <button
-                        onClick={onClose}
+                        onClick={handleCreateUser}
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         Save

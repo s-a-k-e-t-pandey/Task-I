@@ -3,6 +3,6 @@ import { claim } from '../controllers/claimsController';
 
 const router = express.Router();
 
-router.post('/claim', claim);
+router.post('/', claim);
 
 export default router;

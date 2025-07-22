@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const claimsController_1 = require("../controllers/claimsController");
 const router = express_1.default.Router();
-router.post('/claim', claimsController_1.claim);
+router.post('/', claimsController_1.claim);
 exports.default = router;

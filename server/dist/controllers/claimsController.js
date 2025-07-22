@@ -16,7 +16,6 @@ exports.claim = void 0;
 const userModel_1 = __importDefault(require("../models/userModel"));
 const claimsModel_1 = __importDefault(require("../models/claimsModel"));
 const rateLimiter_1 = __importDefault(require("../utils/rateLimiter"));
-const socket_1 = require("../socket");
 const pointGenerator = () => {
     return Math.floor(Math.random() * 10) + 1;
 };
@@ -35,18 +34,14 @@ const claim = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const pt = pointGenerator();
         user.totalPoints += pt;
         yield user.save();
-        const fullName = `${user.firstName}" "${user.lastName}`;
+        const fullName = `${user.firstName} ${user.lastName}`;
         yield claimsModel_1.default.create({
             userId: user._id,
             userName: fullName,
             curPoints: user.totalPoints,
             points: pt
         });
-        const topUsers = yield userModel_1.default.find()
-            .sort({ totalPoints: -1 })
-            .limit(10);
-        socket_1.io === null || socket_1.io === void 0 ? void 0 : socket_1.io.emit('leaderboard:update', topUsers);
-        res.json({ message: 'Points claimed', pt, totalPoints: user.totalPoints });
+        res.json({ message: 'Points claimed', pt, totalPoints: user.totalPoints, userName: fullName });
     }
     catch (err) {
         res.status(500).json({ message: 'Failed to claim points', error: err });

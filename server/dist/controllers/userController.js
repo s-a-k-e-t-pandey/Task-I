@@ -26,7 +26,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.createUser = createUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield userModel_1.default.find().sort({ createdAt: -1 });
+    const users = yield userModel_1.default.find().sort({ totalPoints: -1 });
     res.json(users);
 });
 exports.getUsers = getUsers;

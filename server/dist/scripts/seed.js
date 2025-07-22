@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const userModel_1 = __importDefault(require("../models/userModel"));
-const MONGODB_URI = "mongodb://localhost:27017/your-db-name";
+const db_1 = __importDefault(require("../config/db"));
+const MONGODB_URI = process.env.MONGO_URI || "";
 const seedUsers = [
     { firstName: "Mohit", lastName: "Singh" },
     { firstName: "Vishal", lastName: "Anand" },
@@ -27,20 +28,18 @@ const seedUsers = [
     { firstName: "Rahul", lastName: "Yadav" },
     { firstName: "Pooja", lastName: "Singh" }
 ];
-function seedDatabase() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(MONGODB_URI);
-            console.log("Connected to MongoDB");
-            yield userModel_1.default.deleteMany({});
-            yield userModel_1.default.insertMany(seedUsers);
-            console.log("Seeded users!");
-            yield mongoose_1.default.disconnect();
-        }
-        catch (err) {
-            console.error("Seeding error:", err);
-            process.exit(1);
-        }
-    });
-}
-seedDatabase();
+const seed = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, db_1.default)();
+    // Optional: Clear old data
+    yield userModel_1.default.deleteMany({});
+    // Insert new users
+    yield userModel_1.default.insertMany(seedUsers.map(user => ({
+        firstName: user.firstName,
+        lastName: user.lastName,
+    })));
+    console.log("✅ Seeded users successfully");
+    mongoose_1.default.connection.close();
+});
+seed().catch((err) => {
+    mongoose_1.default.connection.close();
+});
