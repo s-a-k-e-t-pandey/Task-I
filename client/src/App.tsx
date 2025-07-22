@@ -1,5 +1,5 @@
 
-import Landingpage from './components/screens/Landingpage'
+import Landingpage from './components/screen/Landingpage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 

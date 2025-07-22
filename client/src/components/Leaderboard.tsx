@@ -74,7 +74,6 @@ export function RealtimeLeaderboard() {
     refetchInterval: 5000,
   });
 
-  // Update users when data changes
   useEffect(() => {
     if (data) {
       setUsers(data);
@@ -82,13 +81,10 @@ export function RealtimeLeaderboard() {
     }
   }, [data]);
 
-  // Update users and calculate trends when data changes
   useEffect(() => {
     if (data && data.length > 0) {
-      // Sort the new data by score
       const sortedNewUsers = [...data].sort((a, b) => b.score - a.score);
 
-      // Calculate trends by comparing with previous positions
       const usersWithTrends = sortedNewUsers.map((user, currentIndex) => {
         const currentPosition = currentIndex + 1;
         const previousUser = previousUsers.find((prev) => prev.id === user.id);
@@ -106,7 +102,6 @@ export function RealtimeLeaderboard() {
         };
       });
 
-      // Store current positions for next comparison
       setPreviousUsers(usersWithTrends);
       setUsers(usersWithTrends);
       setLastUpdate(new Date());
@@ -132,7 +127,6 @@ export function RealtimeLeaderboard() {
   return (
     <div className="h-full w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 overflow-hidden">
       <div className="max-w-6xl mx-auto h-full">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-2">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -144,28 +138,23 @@ export function RealtimeLeaderboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
-          {/* Top 3 Podium */}
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-white mb-6 text-center">
               Top Performers
             </h2>
             <div className="flex items-end justify-center gap-4 h-80">
-              {/* 2nd Place */}
               {topThree[1] && (
                 <PodiumCard user={topThree[1]} position={2} height="h-48" />
               )}
-              {/* 1st Place */}
               {topThree[0] && (
                 <PodiumCard user={topThree[0]} position={1} height="h-64" />
               )}
-              {/* 3rd Place */}
               {topThree[2] && (
                 <PodiumCard user={topThree[2]} position={3} height="h-40" />
               )}
             </div>
           </div>
 
-          {/* Remaining Users List */}
           <div className="lg:col-span-1">
             <h2 className="text-xl font-bold text-white mb-6">Rankings</h2>
             <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-hide">

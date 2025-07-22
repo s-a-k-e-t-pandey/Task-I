@@ -5,9 +5,7 @@ import { useState } from "react";
 
 
 interface addUserCardProps {
-    // isOpen: boolean;
     onClose: () => void;
-    // buttonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 export const UserCard: React.FC<addUserCardProps> = ({ onClose }) => {

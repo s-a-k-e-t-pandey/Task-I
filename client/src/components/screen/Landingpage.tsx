@@ -12,10 +12,10 @@ export default function Hero() {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <div className="h-2/3 bg-black relative overflow-hidden">
       <Topbar></Topbar>
       <div className="flex flex-col justify-center items-center">
-        <div className="relative mx-auto z-10 flex flex-col md:flex-row items-center justify-center px-4 min-h-screen">
+        <div className="relative mx-auto z-10 flex flex-col md:flex-row items-center justify-center px-4">
           {!isUserCard && (
             <div className="text-center max-w-4xl mx-auto px-4">
               <h1 className="font-Bodoni text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-6 leading-tight drop-shadow-2xl">
@@ -39,7 +39,7 @@ export default function Hero() {
           {isUserCard && <UserCard onClose={() => setIsUserCard(false)} />}
           <HeroScrollDemo />
         </div>
-        <div className="flex flex-row justify-center bottom-30 ">
+        <div className="flex h-2/3 flex-row gap-10 justify-center items-center bottom-30 shadow-lg shadow-gray-500/20 bg-slate-800/50 rounded-3xl p-6 shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200 hover:shadow-lg hover:shadow-gray-500/20">
           <UserList></UserList>
           <ClaimsHistory></ClaimsHistory>
         </div>
